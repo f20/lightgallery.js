@@ -32,6 +32,8 @@ var defaults = {
 
     mode: 'lg-slide',
 
+    appendGalleryTo: 'body',
+
     // Ex : 'ease'
     cssEasing: 'ease',
 
@@ -308,7 +310,7 @@ Plugin.prototype.structure = function() {
     var template;
     var _this = this;
 
-    document.body.insertAdjacentHTML('beforeend', '<div class="lg-backdrop"></div>');
+    document.querySelector(this.s.appendGalleryTo).insertAdjacentHTML('beforeend', '<div class="lg-backdrop"></div>');
     utils.setVendor(document.querySelector('.lg-backdrop'), 'TransitionDuration', this.s.backdropDuration + 'ms');
 
     // Create gallery items
@@ -344,7 +346,7 @@ Plugin.prototype.structure = function() {
         '</div>' +
         '</div>';
 
-    document.body.insertAdjacentHTML('beforeend', template);
+    document.querySelector(this.s.appendGalleryTo).insertAdjacentHTML('beforeend', template);
     this.outer = document.querySelector('.lg-outer');
     this.outer.focus();
     this.___slide = this.outer.querySelectorAll('.lg-item');
