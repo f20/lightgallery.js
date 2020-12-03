@@ -44,7 +44,7 @@ var defaults = {
     startClass: 'lg-start-zoom',
     backdropDuration: 150,
 
-    // Set 0, if u don't want to hide the controls 
+    // Set 0, if u don't want to hide the controls
     hideBarsDelay: 6000,
 
     useLeft: false,
@@ -281,20 +281,20 @@ Plugin.prototype.build = function(index) {
             utils.addClass(_this.outer, 'lg-hide-items');
         }, _this.s.hideBarsDelay);
         utils.on(_this.outer, 'mousemove.lg click.lg touchstart.lg', function() {
-            
+
             // Cancel initalHideBarTimout if user uses mouse or touch events
             // Before it fires
             clearTimeout(initialHideBarTimeout);
-            
+
             utils.removeClass(_this.outer, 'lg-hide-items');
-    
+
             clearTimeout(_this.hideBartimeout);
-    
+
             // Timeout will be cleared on each slide movement also
             _this.hideBartimeout = setTimeout(function() {
                 utils.addClass(_this.outer, 'lg-hide-items');
             }, _this.s.hideBarsDelay);
-    
+
         });
     }
 
@@ -876,13 +876,13 @@ Plugin.prototype.slide = function(index, fromTouch, fromThumb) {
 
             if (index < _prevIndex) {
                 _prev = true;
-                if ((index === 0) && (_prevIndex === _length - 1) && !fromThumb) {
+                if (_this.s.loop && (index === 0) && (_prevIndex === _length - 1) && !fromThumb) {
                     _prev = false;
                     _next = true;
                 }
             } else if (index > _prevIndex) {
                 _next = true;
-                if ((index === _length - 1) && (_prevIndex === 0) && !fromThumb) {
+                if (_this.s.loop && (index === _length - 1) && (_prevIndex === 0) && !fromThumb) {
                     _prev = true;
                     _next = false;
                 }
@@ -1080,7 +1080,7 @@ Plugin.prototype.arrow = function() {
 Plugin.prototype.arrowDisable = function(index) {
 
     // Disable arrows if s.hideControlOnEnd is true
-    if (!this.s.loop && this.s.hideControlOnEnd) {
+    if (!this.s.loop && this.s.hideControlOnEnd && this.___slide.length > 1) {
         let next = this.outer.querySelector('.lg-next');
         let prev = this.outer.querySelector('.lg-prev');
         if ((index + 1) < this.___slide.length) {
