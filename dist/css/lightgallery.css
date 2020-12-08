@@ -254,13 +254,13 @@
   transition: transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
 }
 
-.lg-hide-items .lg-prev {
+.lg-hide-items .lg-prev, .lg-hide-items .lg-prev.disabled {
   opacity: 0;
   -webkit-transform: translate3d(-10px, 0, 0);
   transform: translate3d(-10px, 0, 0);
 }
 
-.lg-hide-items .lg-next {
+.lg-hide-items .lg-next, .lg-hide-items .lg-next.disabled {
   opacity: 0;
   -webkit-transform: translate3d(10px, 0, 0);
   transform: translate3d(10px, 0, 0);

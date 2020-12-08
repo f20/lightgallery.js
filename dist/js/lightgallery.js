@@ -1,5 +1,5 @@
 /**!
- * lightgallery.js | 1.4.1-beta.0 | October 29th 2020
+ * lightgallery.js | 1.4.1-beta.0 | December 8th 2020
  * http://sachinchoolur.github.io/lightgallery.js/
  * Copyright (c) 2016 Sachin N; 
  * @license GPLv3 
@@ -234,6 +234,8 @@
 
         mode: 'lg-slide',
 
+        appendGalleryTo: 'body',
+
         // Ex : 'ease'
         cssEasing: 'ease',
 
@@ -246,7 +248,7 @@
         startClass: 'lg-start-zoom',
         backdropDuration: 150,
 
-        // Set 0, if u don't want to hide the controls 
+        // Set 0, if u don't want to hide the controls
         hideBarsDelay: 6000,
 
         useLeft: false,
@@ -384,6 +386,8 @@
         var _hash = window.location.hash;
         if (_hash.indexOf('lg=' + this.s.galleryId) > 0) {
 
+            _lgUtils2.default.trigger(this.el, 'onBeforeOpen');
+
             _this.index = parseInt(_hash.split('&slide=')[1], 10);
 
             _lgUtils2.default.addClass(document.body, 'lg-from-hash');
@@ -445,6 +449,7 @@
         }
 
         // initiate slide function
+        _this.index = index;
         _this.slide(index, false, false);
 
         if (_this.s.keyPress) {
@@ -504,7 +509,7 @@
         var template;
         var _this = this;
 
-        document.body.insertAdjacentHTML('beforeend', '<div class="lg-backdrop"></div>');
+        document.querySelector(this.s.appendGalleryTo).insertAdjacentHTML('beforeend', '<div class="lg-backdrop"></div>');
         _lgUtils2.default.setVendor(document.querySelector('.lg-backdrop'), 'TransitionDuration', this.s.backdropDuration + 'ms');
 
         // Create gallery items
@@ -526,7 +531,7 @@
 
         template = '<div tabindex="-1" aria-modal="true" ' + ariaLabelledby + ' ' + ariaDescribedby + ' role="dialog" class="lg-outer ' + this.s.addClass + ' ' + this.s.startClass + '">' + '<div class="lg" style="width:' + this.s.width + '; height:' + this.s.height + '">' + '<div class="lg-inner">' + list + '</div>' + '<div class="lg-toolbar lg-group">' + '<button type="button" aria-label="Close gallery" class="lg-close lg-icon"></button>' + '</div>' + controls + subHtmlCont + '</div>' + '</div>';
 
-        document.body.insertAdjacentHTML('beforeend', template);
+        document.querySelector(this.s.appendGalleryTo).insertAdjacentHTML('beforeend', template);
         this.outer = document.querySelector('.lg-outer');
         this.outer.focus();
         this.___slide = this.outer.querySelectorAll('.lg-item');
@@ -1050,13 +1055,13 @@
 
                 if (index < _prevIndex) {
                     _prev = true;
-                    if (index === 0 && _prevIndex === _length - 1 && !fromThumb) {
+                    if (_this.s.loop && index === 0 && _prevIndex === _length - 1 && !fromThumb) {
                         _prev = false;
                         _next = true;
                     }
                 } else if (index > _prevIndex) {
                     _next = true;
-                    if (index === _length - 1 && _prevIndex === 0 && !fromThumb) {
+                    if (_this.s.loop && index === _length - 1 && _prevIndex === 0 && !fromThumb) {
                         _prev = true;
                         _next = false;
                     }
@@ -1251,7 +1256,7 @@
     Plugin.prototype.arrowDisable = function (index) {
 
         // Disable arrows if s.hideControlOnEnd is true
-        if (!this.s.loop && this.s.hideControlOnEnd) {
+        if (!this.s.loop && this.s.hideControlOnEnd && this.___slide.length > 1) {
             var next = this.outer.querySelector('.lg-next');
             var prev = this.outer.querySelector('.lg-prev');
             if (index + 1 < this.___slide.length) {
