@@ -184,6 +184,8 @@ Plugin.prototype.init = function() {
     var _hash = window.location.hash;
     if (_hash.indexOf('lg=' + this.s.galleryId) > 0) {
 
+        utils.trigger(this.el, 'onBeforeOpen');
+
         _this.index = parseInt(_hash.split('&slide=')[1], 10);
 
         utils.addClass(document.body, 'lg-from-hash');
@@ -249,6 +251,7 @@ Plugin.prototype.build = function(index) {
     }
 
     // initiate slide function
+    _this.index = index;
     _this.slide(index, false, false);
 
     if (_this.s.keyPress) {
